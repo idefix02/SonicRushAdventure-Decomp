@@ -37,7 +37,7 @@ This repository builds the following ROM:
 
 **Provide assets**
 
-You must have a copy of the Sonic Rush Adventure ROM named `baserom.nds` in the repository root directory. Any Sonic Rush Adventure ROM should be fine, as the game shares most assets between versions, Though the EU revision 00 rom is recommended, as it is the default build configuration.
+You must have a copy of the Sonic Rush Adventure ROM named `baserom.nds` in the repository root directory. Prefer the EU revision 00 ROM for now, as it is the default build configuration. ROMs from other regions might cause build failures.
 
 ### Contributing
 

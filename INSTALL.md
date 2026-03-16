@@ -6,17 +6,28 @@ Using a terminal or git client, clone this repository to your local device. All 
 
 ### 1. Install MWCC compiler
 
-The build system requires the use of the Metrowerks C Compiler versions 2.0/sp1p5 to compile matching files. We cannot distribute the correct compiler here so join the PRET discord and download the pinned mwccarm.zip zip in #pokediamond and extract it to tools/. At the end of this operation, you should have i.e. the file `tools/mwccarm/2.0/sp1p5/mwccarm.exe`. Run each of the executables so they ask for a license.dat and provide the one in the rar (it may also ask for it when compiling). This only needs to be done once.
+The build system requires the use of the Metrowerks C Compiler versions 2.0/sp1p2 and 2.0/sp1p5 to compile matching files, which we cannot distribute here.
+* Join the [PRET discord](https://pret.github.io/), and download the pinned `mwccarm.zip` zip in #pokediamond.
+* Extract the zip file to the `tools` directory. At the end of this operation, you should have e.g. the file `tools/mwccarm/2.0/sp1p5/mwccarm.exe`.
+* Run each of the executables so they ask for a license.dat and provide the one in the rar (it may also ask for it when compiling). This only needs to be done once.
 
 In the future, a GCC option will be available so MWCC is not required to build, however it is required for a matching ROM.
 
 ### 2. Install Nitro SDK
 
-As with the compiler, the Nitro SDK is proprietary and cannot be distributed here. Download the "NitroSDK-3_2-060901.7z" file pinned in the PRET discord. Extract and copy the folder `tools/bin` from the Nitro SDK into the folder `tools` in your rush2 clone. At the end of this operation, you should have i.e. the file `tools/bin/makelcf.exe` inside your rush2 clone. Finally, copy `include/nitro/specfiles/ARM7-TS.lcf.template` into the subdirectory `sub`, and `include/nitro/specfiles/ARM9-TS.lcf.template` and `include/nitro/specfiles/mwldarm.response.template` into the project root.
+As with the compiler, the Nitro SDK is proprietary and cannot be distributed here.
+* Download the `NitroSDK-3_2-060901.7z` file pinned in the PRET discord.
+* Extract and copy the folder `tools/bin` from the Nitro SDK into the folder `tools` in your rush2 clone. At the end of this operation, you should have e.g. the file `tools/bin/makelcf.exe` inside your rush2 clone.
+* Copy `include/nitro/specfiles/ARM7-TS.lcf.template` into the subdirectory `sub`.
+* Copy `include/nitro/specfiles/ARM9-TS.lcf.template` and `include/nitro/specfiles/mwldarm.response.template` into the project root.
 
 To properly compile the sub binary, the `sub/ARM7-TS.lcf.template` file will have to be slightly modified: add the line `crt0.o (.rodata)` below the line containing `crt0.o (.text)` on line 127
 
-### 3. Dependencies
+### 3. Provide a clean ROM
+
+Remember to add a clean ROM named `baserom.nds` at the project root. See [README.md](README.md) under `Provide assets` for more information.
+
+### 4. Dependencies
 
 #### Linux
 
@@ -48,8 +59,8 @@ Make sure the following packages are installed, using ```pacman -S package-name`
 * cmake
 
 libpng on the other hand must be compiled from source (make sure zlib-devel was installed beforehand). Follow these instructions:
-```console
-cd ~
+```bash
+cd ~       # Or wherever else you want
 wget http://prdownloads.sourceforge.net/libpng/libpng-1.6.50.tar.gz
 tar -xvf libpng-1.6.50.tar.gz
 cd libpng-1.6.50/
@@ -59,6 +70,10 @@ cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DPNG_SHARED=OFF -S
 cmake --build .
 cmake --install .
 ```
+
+Please note:
+* Version 1.6.50 is not a hard requirement, and other recent versions will most likely work as well with the same instructions.
+* If you wish, you may choose another directory than `/usr` to install libpng into, but in that case, make sure `pkg-config` knows about that path (i.e. append the path `/PATH/TO/LIBPNG/lib/pkgconfig` to the `PKG_CONFIG_PATH` environment variable).
 
 ##### Cygwin
 
@@ -95,7 +110,7 @@ $ brew install coreutils make gnu-sed llvm arm-gcc-bin libpng git pkg-config
 $ brew install wine-crossover
 ```
 
-### 4. Build ROM
+### 5. Build ROM
 
 Run `make` to build the ROM. The ROM will be output as `build/rush2.eu/rush2.eu.nds`
 
